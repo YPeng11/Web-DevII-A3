@@ -32,10 +32,10 @@ export class IndexComponent implements OnInit {
   }
 
   private processEvents(events: Event[]): Event[] {
-    // Filter ban_status=1
+    // filter ban_status=1
     const validEvents = events.filter(event => event.ban_status === 1);
-    
-    // Sort by date
+
+    // sort by date
     return validEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   }
 
@@ -48,8 +48,17 @@ export class IndexComponent implements OnInit {
     return { class: '', text: '' };
   }
 
+  getCompletionRate(event: Event): number {
+    if (event.current_price && event.target_price) {
+      return (event.current_price / event.target_price) * 100;
+    }
+    return 0;
+  }
+
   formatDate(dateString: string): string {
     const date = new Date(dateString);
     return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
   }
+
+
 }

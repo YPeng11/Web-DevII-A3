@@ -95,8 +95,8 @@ export class SearchComponent implements OnInit {
   }
 
   getCompletionRate(event: Event): number {
-    if (event.price && event.target_price) {
-      return (event.price / event.target_price) * 100;
+    if (event.current_price  && event.target_price) {
+      return (event.current_price  / event.target_price) * 100;
     }
     return 0;
   }

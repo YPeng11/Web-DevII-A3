@@ -66,10 +66,10 @@
                         </div>
                         <p class="event-description">{{ event.detail }}</p>
                         <div class="event-meta">
-                            <div *ngIf="event.price !== undefined && event.target_price !== undefined" class="event-meta-item">
-                                Raised: ${{ event.price }} / Target: ${{ event.target_price }}
+                            <div *ngIf="event.current_price  !== undefined && event.target_price !== undefined" class="event-meta-item">
+                                Raised: ${{ event.current_price  }} / Target: ${{ event.target_price }}
                             </div>
-                            <div *ngIf="event.price !== undefined && event.target_price !== undefined" class="event-meta-item">
+                            <div *ngIf="event.current_price  !== undefined && event.target_price !== undefined" class="event-meta-item">
                                 Progress: {{ getCompletionRate(event).toFixed(1) }}%
                             </div>
                             <div class="event-meta-item">

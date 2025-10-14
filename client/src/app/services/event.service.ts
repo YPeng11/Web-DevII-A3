@@ -12,7 +12,8 @@ export interface Event {
   ban_status: number;
   location?: string;
   category_name?: string;
-  price?: number;
+  ticket_price?: number;
+  current_price?: number; 
   target_price?: number;
 }
 

@@ -14,13 +14,24 @@
             <div *ngIf="!loading && events.length === 0" class="no-results">
                 <p>No event data is available.</p>
             </div>
-            
+
             <div class="event-card" *ngFor="let event of events">
                 <div class="event-content">
                     <div class="event-name">{{ event.name }}</div>
                     <div class="event-organization">{{ event.organization_name }}</div>
                     <p>{{ event.detail }}</p>
+                    <div class="event-meta">
+                    <div *ngIf="event.current_price  !== undefined && event.target_price !== undefined"
+                        class="event-meta-item">
+                        Raised: ${{ event.current_price }} / Target: ${{ event.target_price }}
+                    </div>
+                    <div *ngIf="event.current_price  !== undefined && event.target_price !== undefined"
+                        class="event-meta-item">
+                        Progress: {{ getCompletionRate(event).toFixed(1) }}%
+                    </div>
                 </div>
+                </div>
+                
                 <div class="event-footer">
                     <div class="event-date">{{ formatDate(event.date) }}</div>
                     <div class="event-actions">
