@@ -32,11 +32,10 @@
                 </button>
             </div>
         </form>
-
-        <!-- Error Message -->
+        
+        <!-- err massage -->
         <div *ngIf="error" class="error-message">{{ error }}</div>
 
-        <!-- Search Results -->
         <div class="results-container">
             <div class="results-header">
                 <div class="results-count">
@@ -45,21 +44,17 @@
             </div>
 
             <div id="resultsContent">
-                <!-- Initial State -->
                 <div *ngIf="!hasSearched" class="no-results">
                     <p>Search events using the filters above</p>
                 </div>
 
-                <!-- Loading State -->
                 <div *ngIf="loading" class="loading">Searching...</div>
 
-                <!-- No Results -->
                 <div *ngIf="hasSearched && !loading && events.length === 0" class="no-results">
                     <p>No matching events</p>
                     <p>Please try adjusting your search criteria</p>
                 </div>
 
-                <!-- Results List -->
                 <ul *ngIf="hasSearched && !loading && events.length > 0" class="events-list">
                     <li class="event-item" *ngFor="let event of events">
                         <h3 class="event-name">{{ event.name }}</h3>
