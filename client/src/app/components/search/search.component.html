@@ -1,0 +1,94 @@
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Search Event</h2>
+
+        <form class="search-form" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" formControlName="date">
+                </div>
+
+                <div class="form-field">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" formControlName="location" placeholder="Please Input City">
+                </div>
+
+                <div class="form-field">
+                    <label for="category">Category</label>
+                    <select id="category" formControlName="category">
+                        <option value="">All Categories</option>
+                        <option *ngFor="let category of categories" [value]="category.id">
+                            {{ category.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-buttons">
+                <button type="button" class="btn btn-secondary" (click)="clearFilters()">Clear Filter</button>
+                <button type="submit" class="btn btn-primary" [disabled]="loading">
+                    {{ loading ? 'Searching...' : 'Search Event' }}
+                </button>
+            </div>
+        </form>
+
+        <!-- Error Message -->
+        <div *ngIf="error" class="error-message">{{ error }}</div>
+
+        <!-- Search Results -->
+        <div class="results-container">
+            <div class="results-header">
+                <div class="results-count">
+                    {{ hasSearched ? resultsCount : 'There are 0 Events' }}
+                </div>
+            </div>
+
+            <div id="resultsContent">
+                <!-- Initial State -->
+                <div *ngIf="!hasSearched" class="no-results">
+                    <p>Search events using the filters above</p>
+                </div>
+
+                <!-- Loading State -->
+                <div *ngIf="loading" class="loading">Searching...</div>
+
+                <!-- No Results -->
+                <div *ngIf="hasSearched && !loading && events.length === 0" class="no-results">
+                    <p>No matching events</p>
+                    <p>Please try adjusting your search criteria</p>
+                </div>
+
+                <!-- Results List -->
+                <ul *ngIf="hasSearched && !loading && events.length > 0" class="events-list">
+                    <li class="event-item" *ngFor="let event of events">
+                        <h3 class="event-name">{{ event.name }}</h3>
+                        <div class="event-meta">
+                            <div class="event-meta-item">{{ formatDate(event.date) }}</div>
+                            <div *ngIf="event.location" class="event-meta-item">{{ event.location }}</div>
+                            <div *ngIf="event.category_name" class="event-meta-item">{{ event.category_name }}</div>
+                            <div class="event-meta-item">{{ event.organization_name }}</div>
+                        </div>
+                        <p class="event-description">{{ event.detail }}</p>
+                        <div class="event-meta">
+                            <div *ngIf="event.price !== undefined && event.target_price !== undefined" class="event-meta-item">
+                                Raised: ${{ event.price }} / Target: ${{ event.target_price }}
+                            </div>
+                            <div *ngIf="event.price !== undefined && event.target_price !== undefined" class="event-meta-item">
+                                Progress: {{ getCompletionRate(event).toFixed(1) }}%
+                            </div>
+                            <div class="event-meta-item">
+                                <span class="event-status" [ngClass]="getEventStatus(event).class">
+                                    {{ getEventStatus(event).text }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="event-actions">
+                            <a [routerLink]="['/detail', event.id]" class="btn-details">Detail</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
