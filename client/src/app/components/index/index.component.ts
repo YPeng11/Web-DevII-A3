@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Event, EventService } from '../../services/event.service';
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-index',
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.css']
 })
-export class HomeComponent implements OnInit {
+export class IndexComponent implements OnInit {
   events: Event[] = [];
   loading = true;
   error = '';

@@ -1,20 +1,29 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
+import { RouterModule, Routes } from '@angular/router';
 
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { IndexComponent } from './components/index/index.component';
 import { LayoutComponent } from './components/layout/layout.component';
+import { IndexComponent } from './components/index/index.component';
+
+
+const routes: Routes = [
+  { path: '', component: IndexComponent },
+
+  { path: '**', redirectTo: '' }
+];
 
 @NgModule({
   declarations: [
     AppComponent,
-    IndexComponent,
-    LayoutComponent
+    LayoutComponent,
+    IndexComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    HttpClientModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
