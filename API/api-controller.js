@@ -6,7 +6,7 @@ connection.connect();
 var express = require('express');
 var router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/events", (req, res) => {
 	connection.query(`
 		SELECT events.*, 
             organization.name as organization_name,
@@ -96,6 +96,31 @@ router.get("/categories", (req, res) => {
         } else {
             res.json(records);
         }
+    });
+});
+
+//-------------------admin------------------------------------------------
+//add event
+router.post("/event", (req, res) => {
+
+    console.log(req.body)
+    // get data by request body
+    const { name, date, location, detail, organizer_id, category_id, target_price, ticket_price } = req.body;
+
+    // insert sql
+    connection.query(`
+        INSERT INTO events (name, date, location, detail, organizer_id, category_id, target_price, ticket_price)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `, [name, date, location, detail, organizer_id, category_id, target_price || null, ticket_price || null], (err, result) => {
+        if (err) {
+            console.error("Error while inserting event:", err);
+        }
+
+        // insert successful
+        res.status(201).json({
+            message: "Event created successful",
+            eventId: result.insertId
+        });
     });
 });
 
