@@ -1,1 +1,48 @@
-<p>index works!</p>
+<section class="hero">
+    <div class="container">
+        <h1>Charity Organization</h1>
+        <p>We are committed to helping people in need through charity activities and creating a better society.</p>
+    </div>
+</section>
+
+<section class="section" id="events">
+    <div class="container">
+        <h2 class="section-title">Charity Events</h2>
+        <div class="events-container">
+            <div *ngIf="loading" class="loading">Loading events...</div>
+            <div *ngIf="error" class="error-message">{{ error }}</div>
+            <div *ngIf="!loading && events.length === 0" class="no-results">
+                <p>No event data is available.</p>
+            </div>
+            
+            <div class="event-card" *ngFor="let event of events">
+                <div class="event-content">
+                    <div class="event-name">{{ event.name }}</div>
+                    <div class="event-organization">{{ event.organization_name }}</div>
+                    <p>{{ event.detail }}</p>
+                </div>
+                <div class="event-footer">
+                    <div class="event-date">{{ formatDate(event.date) }}</div>
+                    <div class="event-actions">
+                        <span class="event-status" [ngClass]="getEventStatus(event).class">
+                            {{ getEventStatus(event).text }}
+                        </span>
+                        <a [routerLink]="['/detail', event.id]" class="btn">More..</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">About Us</h2>
+        <p>Charity Organization, A non-profit organization, is committed to improving the living conditions of
+            vulnerable groups through various charitable activities. Our mission is to convey love, create hope, and
+            allow everyone to enjoy equal development opportunities.</p>
+        <p>In the past years, we have successfully held hundreds of charity events and helped thousands of people in
+            need. Our projects cover multiple areas such as educational support, medical assistance, disaster relief
+            and community development.</p>
+    </div>
+</section>

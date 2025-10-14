@@ -1,0 +1,43 @@
+<header>
+    <div class="container">
+        <nav>
+            <div class="logo">Love Charity</div>
+            <div class="nav-links">
+                <a routerLink="/" routerLinkActive="active">Home</a>
+                <a routerLink="/search" routerLinkActive="active">Search Event</a>
+                <a href="#">About Us</a>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <router-outlet></router-outlet>
+</main>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact us</h3>
+                <p>Tel: (123) 456-7890</p>
+                <p>Email: charity@charity.com</p>
+                <p>Address: No. 123 Charity Road, Liuzhou City, Guangxi Zhuang Autonomous Region</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <a routerLink="/" style="color: white;">Home</a><br>
+                <a routerLink="/search" style="color: white;">Search</a><br>
+            </div>
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>A non-profit organization</p>
+                <p>Our mission is to convey love, create hope, and allow everyone to enjoy equal development
+                    opportunities.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Love Charity.</p>
+        </div>
+    </div>
+</footer>
