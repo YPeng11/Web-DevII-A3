@@ -24,6 +24,7 @@ router.get("/events", (req, res) => {
     })
 })
 
+// get event detail and registrations
 router.get("/detail/:id", (req, res) => {
     const eventId = req.params.id;
 
@@ -38,9 +39,22 @@ router.get("/detail/:id", (req, res) => {
 		WHERE events.id = ?
 		`, eventId, (err, records, fields) => {
         if (err) {
-            console.error("Error while retrieve the event detail data");
+            console.error("Error while get the event detail data");
         } else {
-            res.json(records[0]);
+            const eventDetail = records[0];
+            connection.query(`
+                SELECT * FROM registrations 
+                WHERE event_id = ?
+                ORDER BY registration_date DESC
+                `, eventId, (err, registrationRecords, fields) => {
+
+                if (err) {
+                    console.error("Error while get registrations");
+                }
+
+                eventDetail.registrations = registrationRecords;
+                res.json(eventDetail);
+            });
         }
     })
 })
