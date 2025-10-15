@@ -160,5 +160,29 @@ router.put("/:id", (req, res) => {
 
 });
 
+//delete event by id
+router.delete("/:id", (req, res) => {
+    const eventId = req.params.id;
+
+    // check registrations
+    connection.query(`SELECT COUNT(*) as count FROM registrations WHERE event_id = ?`, eventId, (err, records) => {
+
+        const registrationCount = records[0].count;
+
+        //has registrations
+        if (registrationCount > 0) {
+            return res.status(400).json({ error: "Cannot delete event because it has registrations" });
+        }
+
+        // delete sql
+        connection.query(`DELETE FROM events WHERE id = ?`, eventId, (err, result) => {
+            if (err) {
+                console.error("delete event error:", err);
+            }
+
+            res.json({ message: "Event deleted successful" });
+        });
+    });
+});
 
 module.exports = router;
