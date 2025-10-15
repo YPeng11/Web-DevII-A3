@@ -7,7 +7,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get("/events", (req, res) => {
-	connection.query(`
+    connection.query(`
 		SELECT events.*, 
             organization.name as organization_name,
             organization.email as organization_email,
@@ -16,18 +16,18 @@ router.get("/events", (req, res) => {
         LEFT JOIN organization ON events.organizer_id = organization.id
 		LEFT JOIN categories ON events.category_id = categories.id
 		`, (err, records, fields) => {
-			if (err) {
-				console.error("Error while retrieve the data");
-			} else {
-				res.json(records);
-			}
-		})
+        if (err) {
+            console.error("Error while retrieve the data");
+        } else {
+            res.json(records);
+        }
+    })
 })
 
 router.get("/detail/:id", (req, res) => {
-	const eventId = req.params.id;
+    const eventId = req.params.id;
 
-	connection.query(`
+    connection.query(`
 		SELECT events.*, 
             organization.name as organization_name,
             organization.email as organization_email,
@@ -37,17 +37,17 @@ router.get("/detail/:id", (req, res) => {
 		LEFT JOIN categories ON events.category_id = categories.id
 		WHERE events.id = ?
 		`, eventId, (err, records, fields) => {
-			if (err) {
-				console.error("Error while retrieve the event detail data");
-			} else {
-				res.json(records[0]);
-			}
-		})
+        if (err) {
+            console.error("Error while retrieve the event detail data");
+        } else {
+            res.json(records[0]);
+        }
+    })
 })
 
 router.get("/search", (req, res) => {
     const { date, location, category_id } = req.query;
-    
+
     let sqlQuery = `
         SELECT events.*, 
             organization.name as organization_name,
@@ -58,29 +58,29 @@ router.get("/search", (req, res) => {
         LEFT JOIN categories ON events.category_id = categories.id
         WHERE events.ban_status = 1
     `;
-    
+
     const queryParams = [];
-    
+
     if (date) {
         sqlQuery += ` AND events.date = ?`;
         queryParams.push(date);
     }
-    
+
     if (location) {
         sqlQuery += ` AND events.Location LIKE ?`;
         queryParams.push(`%${location}%`);
     }
-    
+
     if (category_id) {
         sqlQuery += ` AND events.category_id = ?`;
         queryParams.push(category_id);
     }
-    
+
     connection.query(sqlQuery, queryParams, (err, records, fields) => {
         if (err) {
-			console.error("Error while search");
+            console.error("Error while search");
         } else {
-           res.json(records);
+            res.json(records);
         }
     });
 });
@@ -124,6 +124,27 @@ router.post("/event", (req, res) => {
     });
 });
 
+
+// update event by id
+router.put("/:id", (req, res) => {
+    const eventId = req.params.id;
+    // get data by request body
+    const { name, date, location, detail, organizer_id, category_id, target_price, ticket_price } = req.body;
+
+    // update sql
+    connection.query(`
+            UPDATE events 
+            SET name = ?, date = ?, location = ?, detail = ?, organizer_id = ?, category_id = ?, target_price = ?, ticket_price = ?
+            WHERE id = ?
+        `, [name, date, location, detail, organizer_id, category_id, target_price, ticket_price, eventId], (err, result) => {
+        if (err) {
+            console.error("update error", err);
+        }
+
+        res.json({ message: "Event updated successful" });
+    });
+
+});
 
 
 module.exports = router;
