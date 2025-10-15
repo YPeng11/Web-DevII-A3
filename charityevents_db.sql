@@ -41,7 +41,7 @@ INSERT INTO `categories` VALUES (7, 'Animal Protection');
 -- ----------------------------
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events`  (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `date` datetime NULL DEFAULT NULL,
   `category_id` int NULL DEFAULT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `events`  (
   INDEX `category_id`(`category_id` ASC) USING BTREE,
   CONSTRAINT `events_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `organizer` FOREIGN KEY (`organizer_id`) REFERENCES `organization` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of events
@@ -95,5 +95,35 @@ INSERT INTO `organization` VALUES (5, 'Emergency Relief Foundation', '123@qq.com
 INSERT INTO `organization` VALUES (6, 'Hope Employment Assistance Center', '123@qq.com');
 INSERT INTO `organization` VALUES (7, 'Animal Protection Association', '123@qq.com');
 INSERT INTO `organization` VALUES (8, 'Children Welfare Foundation', '123@qq.com');
+
+-- ----------------------------
+-- Table structure for registrations
+-- ----------------------------
+DROP TABLE IF EXISTS `registrations`;
+CREATE TABLE `registrations`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '唯一标识符',
+  `event_id` int NOT NULL COMMENT '外键，引用events表的id',
+  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户姓名',
+  `user_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户邮箱（用于识别用户）',
+  `registration_date` datetime NULL DEFAULT NULL COMMENT '注册日期',
+  `ticket_count` int NULL DEFAULT NULL COMMENT '购买票数',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `unique_registration`(`event_id` ASC, `user_email` ASC) USING BTREE COMMENT '确保每个用户对每个事件只能注册一次',
+  CONSTRAINT `registrations_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存储用户事件注册信息' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of registrations
+-- ----------------------------
+INSERT INTO `registrations` VALUES (1, 1, 'John Doe', 'john@qq.com', '2025-06-10 09:00:00', 2);
+INSERT INTO `registrations` VALUES (2, 1, 'Jane Smith', 'jane@126.com', '2025-06-12 10:00:00', 1);
+INSERT INTO `registrations` VALUES (3, 2, 'Bob Johnson', 'bob@163.com', '2025-10-15 11:00:00', 3);
+INSERT INTO `registrations` VALUES (4, 3, 'Alice Brown', 'alice@scu.edu.cn', '2025-07-01 12:00:00', 1);
+INSERT INTO `registrations` VALUES (5, 4, 'Charlie Davis', 'charlie@scu.edu.cn', '2025-09-20 13:00:00', 4);
+INSERT INTO `registrations` VALUES (6, 5, 'Eva Wilson', 'eva@scu.edu.cn', '2025-10-01 14:00:00', 2);
+INSERT INTO `registrations` VALUES (7, 6, 'Frank Miller', 'frank@scu.edu.cn', '2025-10-20 15:00:00', 1);
+INSERT INTO `registrations` VALUES (8, 7, 'Grace Lee', 'grace@scu.edu.cn', '2025-10-20 16:00:00', 3);
+INSERT INTO `registrations` VALUES (9, 8, 'Henry Garcia', 'henry@scu.edu.cn', '2025-10-25 17:00:00', 2);
+INSERT INTO `registrations` VALUES (10, 9, 'Ivy Martinez', 'ivy@scu.edu.cn', '2025-09-25 18:00:00', 5);
 
 SET FOREIGN_KEY_CHECKS = 1;
