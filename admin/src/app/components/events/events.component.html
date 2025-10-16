@@ -1,0 +1,69 @@
+<div class="event-list-container">
+  <div class="header">
+    <h2>Event Management</h2>
+    <p>Manage all registered events including Active, Past, and Suspended events</p>
+  </div>
+
+  <div *ngIf="loading && !showDetailModal" class="loading">
+    <p>Loading events...</p>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <!-- event list -->
+  <div *ngIf="!loading" class="events-table-container">
+    <table class="events-table">
+      <thead>
+        <tr>
+          <th>Event Name</th>
+          <th>Date</th>
+          <th>Location</th>
+          <th>Organization</th>
+          <th>Category</th>
+          <th>Target Price</th>
+          <th>Current Price</th>
+          <th>Status</th>
+          <th>Detail</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let event of events" class="event-row">
+          <td class="event-name">{{ event.name }}</td>
+          <td class="event-date">{{ formatDate(event.date) }}</td>
+          <td class="event-location">{{ event.location }}</td>
+          <td class="event-org">{{ event.organization_name }}</td>
+          <td class="event-category">{{ event.category_name }}</td>
+          <td class="event-target-price">${{ event.target_price }}</td>
+          <td class="event-current-price">${{ event.current_price }}</td>
+          <td>
+            <span [class]="'status-badge ' + getStatusClass(event)">
+              {{ getStatus(event) }}
+            </span>
+          </td>
+          <td class="event-actions">
+            <button (click)="viewDetails(event)" class="btn btn-info">
+              Detail
+            </button>
+          </td>
+          <td class="event-actions">
+           
+            <button (click)="deleteEvent(event.id)" class="btn btn-danger" 
+                    [disabled]="getTotalRegistrations(event) > 0">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- no event -->
+    <div *ngIf="events.length === 0" class="no-events">
+      <p>No events found</p>
+    </div>
+  </div>
+
+ 
+</div>
