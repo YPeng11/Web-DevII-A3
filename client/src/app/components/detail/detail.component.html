@@ -1,0 +1,117 @@
+<section class="section" id="events">
+    <div class="container">
+        <h2 class="section-title">Charity Events</h2>
+
+        <div *ngIf="loading" class="loading">Loading event details...</div>
+        <div *ngIf="error" class="error-message">{{ error }}</div>
+
+        <div *ngIf="event && !loading" class="events-container">
+            <div class="event-header">
+                <h1 class="event-title">{{ event.name }}</h1>
+                <div class="event-status" [ngClass]="getStatusClass()">
+                    {{ getStatusText() }}
+                </div>
+                <img [src]="'/assets/img/' + event.id + '.jpg'" [alt]="event.name" class="event-image">
+            </div>
+
+            <div class="event-info">
+                <div class="info-section">
+                    <h3 class="info-title">Event Detail</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">Event Date</span>
+                            <span class="info-value">{{ formatDate(event.date) }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Category</span>
+                            <span class="info-value">{{ event.category_name || 'Uncategorized' }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Organization</span>
+                            <span class="info-value">{{ event.organization_name || 'unknown organization' }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Location</span>
+                            <span class="info-value">{{ event.location || 'unknown location' }}</span>
+                        </div>
+                        <div class="info-item" *ngIf="event.ticket_price">
+                            <span class="info-label">Ticket Price</span>
+                            <span class="info-value">${{ event.ticket_price }}</span>
+                        </div>
+                        
+                    </div>
+                    <h3 class="info-title">Event Description</h3>
+                        <div class="detail-content">
+                            {{ event.detail }}
+                        </div>
+                </div>
+
+                
+            </div>
+
+            <!-- Registration Data Section -->
+            <div class="registrations-section" *ngIf="event.registrations && event.registrations.length > 0">
+                <h3 class="info-title">Event Registrations</h3>
+
+                <div class="registration-summary">
+                    <div class="summary-item">
+                        <div class="summary-value">{{ getTotalRegistrations() }}</div>
+                        <div class="summary-label">Total Registrations</div>
+                    </div>
+                    <div class="summary-item">
+                        <div class="summary-value">{{ getTotalTickets() }}</div>
+                        <div class="summary-label">Total Tickets</div>
+                    </div>
+                </div>
+
+                <div class="registrations-list">
+                    <div class="registration-header">
+                        <div class="reg-col name">Name</div>
+                        <div class="reg-col email">Email</div>
+                        <div class="reg-col date">Registration Date</div>
+                        <div class="reg-col tickets">Tickets</div>
+                    </div>
+
+                    <div class="registration-item" *ngFor="let registration of event.registrations">
+                        <div class="reg-col name">{{ registration.user_name }}</div>
+                        <div class="reg-col email">{{ registration.user_email }}</div>
+                        <div class="reg-col date">{{ formatDate(registration.registration_date) }}</div>
+                        <div class="reg-col tickets">{{ registration.ticket_count }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="event-detail">
+<div class="info-section">
+                    <h3 class="info-title">Event Progress</h3>
+
+                    <div class="fundraising-numbers">
+                        <div class="number-item">
+                            <div class="number-value">${{ event.current_price || 0 }}</div>
+                            <div class="number-label">Current Amount</div>
+                        </div>
+                        <div class="number-item">
+                            <div class="number-value">${{ event.target_price || 0 }}</div>
+                            <div class="number-label">Target Amount</div>
+                        </div>
+                        <div class="number-item">
+                            <div class="number-value">{{ getCompletionRate().toFixed(1) }}%</div>
+                            <div class="number-label">Completeness</div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="register-btn" [routerLink]="['/register', event.id]"
+                            [disabled]="!isEventActive()">
+                            {{ isEventActive() ? 'Register Now' : 'Event Ended' }}
+                        </button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+
+        <div *ngIf="!event && !loading && !error" class="no-results">
+            <p>No event data is available.</p>
+        </div>
+    </div>
+</section>

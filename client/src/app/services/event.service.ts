@@ -13,8 +13,18 @@ export interface Event {
   location?: string;
   category_name?: string;
   ticket_price?: number;
-  current_price?: number; 
+  current_price?: number;
   target_price?: number;
+  registrations?: Registration[];
+}
+
+export interface Registration {
+  id: number;
+  event_id: number;
+  user_name: string;
+  user_email: string;
+  registration_date: string;
+  ticket_count: number;
 }
 
 export interface Category {
@@ -32,17 +42,17 @@ export interface SearchParams {
   providedIn: 'root'
 })
 export class EventService {
-  private apiUrl = 'http://localhost:3060/api/events';
+  private apiUrl = 'http://localhost:3060/api';
 
   constructor(private http: HttpClient) { }
 
   getEvents(): Observable<Event[]> {
-    return this.http.get<Event[]>(this.apiUrl);
+    return this.http.get<Event[]>(`${this.apiUrl}/events`);
   }
 
   searchEvents(params: SearchParams): Observable<Event[]> {
     let httpParams = new HttpParams();
-    
+
     if (params.date) {
       httpParams = httpParams.set('date', params.date);
     }
@@ -58,5 +68,9 @@ export class EventService {
 
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.apiUrl}/categories`);
+  }
+
+  getEventDetail(id: number): Observable<Event> {
+    return this.http.get<Event>(`${this.apiUrl}/detail/${id}`);
   }
 }

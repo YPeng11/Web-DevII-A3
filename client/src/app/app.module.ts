@@ -8,11 +8,13 @@ import { AppComponent } from './app.component';
 import { LayoutComponent } from './components/layout/layout.component';
 import { IndexComponent } from './components/index/index.component';
 import { SearchComponent } from './components/search/search.component';
+import { DetailComponent } from './components/detail/detail.component';
 
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: 'search', component: SearchComponent },
+  { path: 'detail/:id', component: DetailComponent },
   { path: '**', redirectTo: '' }
 ];
 
@@ -21,7 +23,8 @@ const routes: Routes = [
     AppComponent,
     LayoutComponent,
     IndexComponent,
-    SearchComponent
+    SearchComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,
