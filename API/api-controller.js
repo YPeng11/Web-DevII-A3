@@ -99,8 +99,6 @@ router.get("/search", (req, res) => {
     });
 });
 
-
-
 router.get("/categories", (req, res) => {
     connection.query(`
         SELECT * FROM categories
@@ -112,6 +110,68 @@ router.get("/categories", (req, res) => {
         }
     });
 });
+
+// add registration by event id
+router.post("/registration/:id", (req, res) => {
+    const eventId = req.params.id;
+    const { user_name, user_email, ticket_count } = req.body;
+
+    // check ticket count
+    if (!Number.isInteger(ticket_count) || ticket_count <= 0) {
+        return res.status(400).json({ error: "Ticket count must be a positive integer" });
+    }
+
+    // check email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(user_email)) {
+        return res.status(400).json({ error: "Invalid email format" });
+    }
+
+    // ban status cannot register
+    connection.query(`
+        SELECT * FROM events 
+        WHERE id = ? AND ban_status = 1
+    `, eventId, (err, eventRecords) => {
+
+        if (eventRecords.length === 0) {
+            return res.status(404).json({ error: "Event not available for registration" });
+        }
+
+        const event = eventRecords[0];
+
+
+        // format date
+        const registrationDate = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+        connection.query(`
+                INSERT INTO registrations (event_id, user_name, user_email, registration_date, ticket_count)
+                VALUES (?, ?, ?, ?, ?)
+            `, [eventId, user_name, user_email, registrationDate, ticket_count], (err, result) => {
+            if (err) {
+                console.error("create registration error:", err);
+            }
+
+            // update current price
+            const totalAmount = ticket_count * (event.ticket_price || 0);
+            const newCurrentPrice = (event.current_price || 0) + totalAmount;
+
+            connection.query(`
+                    UPDATE events SET current_price = ? WHERE id = ?
+                `, [newCurrentPrice, eventId], (err, updateResult) => {
+                if (err) {
+                    console.error(" update event current price error:", err);
+                }
+
+                res.status(201).json({
+                    message: "Registration created successful",
+                    registrationId: result.insertId,
+                });
+            });
+        });
+
+    });
+});
+
 
 //-------------------admin------------------------------------------------
 //add event
