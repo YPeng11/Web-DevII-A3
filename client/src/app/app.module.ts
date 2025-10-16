@@ -9,6 +9,7 @@ import { LayoutComponent } from './components/layout/layout.component';
 import { IndexComponent } from './components/index/index.component';
 import { SearchComponent } from './components/search/search.component';
 import { DetailComponent } from './components/detail/detail.component';
+import { RegisterComponent } from './components/register/register.component';
 
 
 const routes: Routes = [
@@ -24,7 +25,8 @@ const routes: Routes = [
     LayoutComponent,
     IndexComponent,
     SearchComponent,
-    DetailComponent
+    DetailComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
