@@ -128,6 +128,24 @@ export class EventsComponent implements OnInit {
   }
 
 
+  deleteEvent(eventId: number): void {
+    if (confirm('Are you sure you want to delete this event?')) {
+      this.eventService.deleteEvent(eventId).subscribe({
+        next: () => {
+          this.events = this.events.filter(event => event.id !== eventId);
+          alert('Event deleted successfully');
+        },
+        error: (error) => {
+          if (error.status === 400) {
+            alert('Cannot delete event because it has registrations');
+          } else {
+            alert('Failed to delete event');
+          }
+          console.error('Error deleting event:', error);
+        }
+      });
+    }
+  }
 
   getTotalRegistrations(event: Event): number {
     return event.registrations?.length || 0;

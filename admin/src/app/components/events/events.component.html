@@ -52,7 +52,11 @@
            <button (click)="editEvent(event)" class="btn btn-edit">
               Edit
             </button>
-        
+            
+            <button (click)="deleteEvent(event.id)" class="btn btn-danger" 
+                    [disabled]="getTotalRegistrations(event) > 0">
+              Delete
+            </button>
           </td>
         </tr>
       </tbody>
