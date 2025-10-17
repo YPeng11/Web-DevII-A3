@@ -39,10 +39,13 @@ export class EditEventComponent implements OnInit {
     });
   }
 
-  // 将日期格式化为 YYYY-MM-DDTHH:mm 格式用于 datetime-local input
   private formatDateForInput(dateString: string): string {
     const date = new Date(dateString);
-    return date.toISOString().slice(0, 16);
+    // YYYY-MM-DD
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 
   loadCategories(): void {

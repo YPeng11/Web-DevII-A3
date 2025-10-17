@@ -40,8 +40,8 @@ export class EventsComponent implements OnInit {
   error = '';
   selectedEvent: Event | null = null;
   showDetailModal = false;
-  editingEvent: Event | null = null; 
-  showEditModal = false; 
+  editingEvent: Event | null = null;
+  showEditModal = false;
 
   constructor(private eventService: EventService) { }
 
@@ -65,6 +65,8 @@ export class EventsComponent implements OnInit {
   }
 
   editEvent(event: Event): void {
+    console.log('Edit btn clicked');
+    console.log('Event to edit:', event);
     this.editingEvent = event;
     this.showEditModal = true;
   }
@@ -87,11 +89,11 @@ export class EventsComponent implements OnInit {
 
     if (event.event_status === 0) {
       return 'Past';
-    }else{
+    } else {
       return 'Active';
     }
-    
- 
+
+
   }
 
   getStatusClass(event: Event): string {
@@ -156,7 +158,7 @@ export class EventsComponent implements OnInit {
     const ticketCount = this.getTotalTickets(event);
     return ticketCount * parseFloat(event.ticket_price || '0');
   }
-  
+
   formatDate(dateString: string): string {
     const date = new Date(dateString);
     return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
