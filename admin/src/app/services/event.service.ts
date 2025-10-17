@@ -49,7 +49,15 @@ export class EventService {
     return this.http.get<Event>(`${this.apiUrl}/detail/${id}`);
   }
 
+   updateEvent(id: number, eventData: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, eventData);
+  }
+
   deleteEvent(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
+  }
+  
+  getCategories(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/categories`);
   }
 }

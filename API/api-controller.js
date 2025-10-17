@@ -245,4 +245,17 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+
+router.get("/organization", (req, res) => {
+    connection.query(`
+        SELECT * FROM organization
+    `, (err, records, fields) => {
+        if (err) {
+            console.error("Error while retrieve the category data:", err);
+        } else {
+            res.json(records);
+        }
+    });
+});
+
 module.exports = router;

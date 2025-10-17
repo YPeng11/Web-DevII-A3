@@ -102,7 +102,14 @@
 .btn-info:hover {
   background-color: #1976d2;
 }
+.btn-edit {
+  background-color: #40e75c;
+  color: white;
+}
 
+.btn-edit:hover {
+  background-color: #2fe62f;
+}
 .btn-danger {
   background-color: #f44336;
   color: white;
