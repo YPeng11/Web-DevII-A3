@@ -251,7 +251,7 @@ router.get("/organization", (req, res) => {
         SELECT * FROM organization
     `, (err, records, fields) => {
         if (err) {
-            console.error("Error while retrieve the category data:", err);
+            console.error("Error while retrieve the organization data:", err);
         } else {
             res.json(records);
         }

@@ -40,6 +40,8 @@ export class EventsComponent implements OnInit {
   error = '';
   selectedEvent: Event | null = null;
   showDetailModal = false;
+  editingEvent: Event | null = null; 
+  showEditModal = false; 
 
   constructor(private eventService: EventService) { }
 
@@ -60,6 +62,22 @@ export class EventsComponent implements OnInit {
         console.error('Error loading events:', error);
       }
     });
+  }
+
+  editEvent(event: Event): void {
+    this.editingEvent = event;
+    this.showEditModal = true;
+  }
+
+  onEventUpdated(): void {
+    this.showEditModal = false;
+    this.editingEvent = null;
+    this.loadEvents(); // reload
+  }
+
+  onCancelEdit(): void {
+    this.showEditModal = false;
+    this.editingEvent = null;
   }
 
   getStatus(event: Event): string {
