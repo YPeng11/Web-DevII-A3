@@ -66,15 +66,14 @@ export class EventsComponent implements OnInit {
     if (event.ban_status === 0) {
       return 'Suspended';
     }
-    
-    const eventDate = new Date(event.date);
-    const now = new Date();
-    
-    if (eventDate < now) {
+
+    if (event.event_status === 0) {
       return 'Past';
-    } else {
+    }else{
       return 'Active';
     }
+    
+ 
   }
 
   getStatusClass(event: Event): string {

@@ -59,6 +59,107 @@
       </tbody>
     </table>
 
+     <!-- detail modal -->
+  <div *ngIf="showDetailModal" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Event Details</h3>
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+      </div>
+      
+         <!-- Details -->
+      <div *ngIf="selectedEvent" class="modal-body">
+        <div class="detail-section">
+          <h4>Basic Information</h4>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>Event Name:</label>
+              <span>{{ selectedEvent.name }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Date:</label>
+              <span>{{ formatDate(selectedEvent.date) }}</span>
+
+            </div>
+            <div class="detail-item">
+              <label>Location:</label>
+              <span>{{ selectedEvent.location }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Organization:</label>
+              <span>{{ selectedEvent.organization_name }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Category:</label>
+              <span>{{ selectedEvent.category_name }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Status:</label>
+              <span [class]="'status-badge ' + getStatusClass(selectedEvent)">
+                {{ getStatus(selectedEvent) }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="detail-section">
+          <h4>Financial Information</h4>
+          <div class="detail-grid">
+            <div class="detail-item">
+              <label>Target Price:</label>
+              <span>${{ selectedEvent.target_price }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Current Price:</label>
+              <span>${{ selectedEvent.current_price }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Ticket Price:</label>
+              <span>${{ selectedEvent.ticket_price }}</span>
+            </div>
+            <div class="detail-item">
+              <label>Total Revenue:</label>
+              <span>${{ getTotalRevenue(selectedEvent) }}</span>
+            </div>
+          </div>
+        </div>
+
+     
+        <div class="detail-section">
+          <h4>Event Details</h4>
+          <p class="event-detail-text">{{ selectedEvent.detail }}</p>
+        </div>
+
+        <div class="detail-section">
+          <h4>Registrations ({{ getTotalRegistrations(selectedEvent) }})</h4>
+          <div *ngIf="selectedEvent.registrations && selectedEvent.registrations.length > 0" class="registrations-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Registration Date</th>
+                  <th>Tickets</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let reg of selectedEvent.registrations">
+                  <td>{{ reg.user_name }}</td>
+                  <td>{{ reg.user_email }}</td>
+                  <td>{{ reg.registration_date | date:'medium' }}</td>
+                  <td>{{ reg.ticket_count }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="!selectedEvent.registrations || selectedEvent.registrations.length === 0" class="no-registrations">
+            <p>No registrations for this event</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
     <!-- no event -->
     <div *ngIf="events.length === 0" class="no-events">
       <p>No events found</p>
