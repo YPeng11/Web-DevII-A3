@@ -11,8 +11,8 @@ export interface Event {
     location: string;
     target_price: string;
     detail: string;
-    event_status: number;
-    ban_status: number;
+    event_status: number; // 0: Past, 1: Active
+    ban_status: number;  // 0: Suspended, 1: Active
     ticket_price: string;
     current_price: string;
     organization_name: string;
