@@ -38,15 +38,15 @@
                             <span class="info-label">Ticket Price</span>
                             <span class="info-value">${{ event.ticket_price }}</span>
                         </div>
-                        
+
                     </div>
                     <h3 class="info-title">Event Description</h3>
-                        <div class="detail-content">
-                            {{ event.detail }}
-                        </div>
+                    <div class="detail-content">
+                        {{ event.detail }}
+                    </div>
                 </div>
 
-                
+
             </div>
 
             <!-- Registration Data Section -->
@@ -82,7 +82,7 @@
             </div>
 
             <div class="event-detail">
-<div class="info-section">
+                <div class="info-section">
                     <h3 class="info-title">Event Progress</h3>
 
                     <div class="fundraising-numbers">
@@ -107,7 +107,7 @@
                         </button>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
 
         <div *ngIf="!event && !loading && !error" class="no-results">
