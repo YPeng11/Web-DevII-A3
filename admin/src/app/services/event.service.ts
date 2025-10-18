@@ -57,6 +57,10 @@ export class EventService {
         return this.http.delete(`${this.apiUrl}/${id}`);
     }
 
+    createEvent(eventData: any): Observable<any> {
+        return this.http.post(`${this.apiUrl}/event`, eventData);
+    }
+
     getCategories(): Observable<any[]> {
         return this.http.get<any[]>(`${this.apiUrl}/categories`);
     }
