@@ -1,0 +1,109 @@
+<section class="section">
+    <div class="container">
+        <h2 class="section-title">Event Registration</h2>
+        
+        <div *ngIf="loading" class="loading">Loading event details...</div>
+        <div *ngIf="error && !loading" class="error-message">{{ error }}</div>
+        
+        <div *ngIf="event && !loading" class="registration-container">
+            <!-- Event Summary -->
+            <div class="event-summary">
+                <h3 class="event-name">{{ event.name }}</h3>
+                <div class="event-details">
+                    <div class="detail-item">
+                        <span class="label">Date:</span>
+                        <span class="value">{{ formatDate(event.date) }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Location:</span>
+                        <span class="value">{{ event.location || 'Unknown location' }}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="label">Organization:</span>
+                        <span class="value">{{ event.organization_name }}</span>
+                    </div>
+                    <div class="detail-item" *ngIf="event.ticket_price">
+                        <span class="label">Ticket Price:</span>
+                        <span class="value">${{ event.ticket_price }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div *ngIf="success" class="success-message">
+                <h3>Registration Successful!</h3>
+                <p>Thank you for registering for "{{ event.name }}". You will be redirected to the event page in a few seconds.</p>
+                <p>If you are not redirected, <a [routerLink]="['/detail', event.id]">click here</a>.</p>
+            </div>
+
+            <!-- Registration Form -->
+            <form *ngIf="!success" [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="registration-form">
+                <h3 class="form-title">Registration Information</h3>
+                
+                <div class="form-group">
+                    <label for="user_name">Full Name *</label>
+                    <input 
+                        type="text" 
+                        id="user_name" 
+                        formControlName="user_name"
+                        placeholder="Enter your full name"
+                        [class.error]="registerForm.get('user_name')?.invalid && registerForm.get('user_name')?.touched">
+                    <div *ngIf="registerForm.get('user_name')?.invalid && registerForm.get('user_name')?.touched" class="error-text">
+                        <div *ngIf="registerForm.get('user_name')?.errors?.['required']">Name is required</div>
+                        <div *ngIf="registerForm.get('user_name')?.errors?.['minlength']">Name must be at least 2 characters</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="user_email">Email Address *</label>
+                    <input 
+                        type="email" 
+                        id="user_email" 
+                        formControlName="user_email"
+                        placeholder="Enter your email address"
+                        [class.error]="registerForm.get('user_email')?.invalid && registerForm.get('user_email')?.touched">
+                    <div *ngIf="registerForm.get('user_email')?.invalid && registerForm.get('user_email')?.touched" class="error-text">
+                        <div *ngIf="registerForm.get('user_email')?.errors?.['required']">Email is required</div>
+                        <div *ngIf="registerForm.get('user_email')?.errors?.['email']">Please enter a valid email address</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ticket_count">Number of Tickets *</label>
+                    <select 
+                        id="ticket_count" 
+                        formControlName="ticket_count"
+                        [class.error]="registerForm.get('ticket_count')?.invalid && registerForm.get('ticket_count')?.touched">
+                        <option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [value]="i">{{ i }} ticket(s)</option>
+                    </select>
+                    <div *ngIf="registerForm.get('ticket_count')?.invalid && registerForm.get('ticket_count')?.touched" class="error-text">
+                        Please select a valid number of tickets
+                    </div>
+                </div>
+
+                <!-- Order Summary -->
+                <div *ngIf="event.ticket_price" class="order-summary">
+                    <h4>Order Summary</h4>
+                    <div class="summary-row">
+                        <span>Tickets ({{ registerForm.value.ticket_count }} × ${{ event.ticket_price }})</span>
+                        <span>${{ getTotalPrice() }}</span>
+                    </div>
+                    <div class="summary-total">
+                        <span>Total Amount</span>
+                        <span>${{ getTotalPrice() }}</span>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" (click)="goBack()">Cancel</button>
+                    <button 
+                        type="submit" 
+                        class="btn btn-primary"
+                        [disabled]="submitting || registerForm.invalid">
+                        {{ submitting ? 'Processing...' : 'Complete Registration' }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

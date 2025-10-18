@@ -27,6 +27,13 @@ export interface Registration {
   ticket_count: number;
 }
 
+export interface RegistrationRequest {
+  event_id: number;
+  user_name: string;
+  user_email: string;
+  ticket_count: number;
+}
+
 export interface Category {
   id: number;
   name: string;
@@ -72,5 +79,9 @@ export class EventService {
 
   getEventDetail(id: number): Observable<Event> {
     return this.http.get<Event>(`${this.apiUrl}/detail/${id}`);
+  }
+
+  createRegistration(id: number, registration: RegistrationRequest): Observable<any> {
+    return this.http.post(`${this.apiUrl}/registration/${id}`, registration);
   }
 }

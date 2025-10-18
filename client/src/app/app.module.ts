@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: 'search', component: SearchComponent },
   { path: 'detail/:id', component: DetailComponent },
+  { path: 'register/:id', component: RegisterComponent },
   { path: '**', redirectTo: '' }
 ];
 
