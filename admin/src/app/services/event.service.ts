@@ -37,7 +37,7 @@ export interface Registration {
 
 
 export class EventService {
-    private apiUrl = 'http://24517296.it.scu.edu.au/api';
+    private apiUrl = 'http://24516918.it.scu.edu.au/api';
 
     constructor(private http: HttpClient) { }
 
