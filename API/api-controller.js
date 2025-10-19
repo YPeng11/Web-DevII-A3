@@ -1,4 +1,4 @@
-var dbcon = require("../event_db");
+var dbcon = require("./event_db");
 var connection = dbcon.getConnection();
 
 connection.connect();

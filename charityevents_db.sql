@@ -11,6 +11,7 @@
  Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
+ Date: 19/10/2025 16:01:06
 */
 
 SET NAMES utf8mb4;
@@ -58,7 +59,7 @@ CREATE TABLE `events`  (
   INDEX `category_id`(`category_id` ASC) USING BTREE,
   CONSTRAINT `events_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `organizer` FOREIGN KEY (`organizer_id`) REFERENCES `organization` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of events
@@ -71,7 +72,10 @@ INSERT INTO `events` VALUES (5, 'Disaster Relief and Charity Rescue', '2025-10-0
 INSERT INTO `events` VALUES (6, 'Love Library Project', '2025-11-28 00:00:00', 1, 1, 'Shenzhen', 800000.00, 'Establish love libraries in remote area schools, providing books and learning materials, enriching children\'s reading life', 1, 1, 568.00, 591.00);
 INSERT INTO `events` VALUES (7, 'Vocational Training for Disabled Persons', '2025-10-24 00:00:00', 1, 6, 'Chongqing', 600000.00, 'Provide vocational skills training for disabled persons, helping them obtain employment opportunities and realize self-worth', 1, 1, 236.00, 2998.00);
 INSERT INTO `events` VALUES (8, 'Stray Animal Rescue', '2025-11-27 00:00:00', 7, 7, 'Chengdu', 400000.00, 'Rescue stray cats and dogs, provide medical care, shelter and adoption services, giving stray animals a warm home', 1, 0, 888.00, 5698.00);
-INSERT INTO `events` VALUES (9, 'Test Suspended', '2025-09-30 00:00:00', 1, 1, 'Changsha', 2000.00, 'Testing illegal activity', 0, 0, 999.00, 659.00);
+INSERT INTO `events` VALUES (9, 'Test Suspended', '2025-09-30 00:00:00', 1, 1, 'Changsha', 2000.00, 'Testing illegal activity tttt', 0, 0, 123.00, 659.00);
+INSERT INTO `events` VALUES (13, 'test delete', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `events` VALUES (14, 'Test Suspended11', '2025-10-17 00:00:00', 2, NULL, 'Beijing', 124325.00, 'sadfs', NULL, NULL, 100.00, NULL);
+INSERT INTO `events` VALUES (15, 'Test Suspended123', '2025-10-22 00:00:00', 3, NULL, 'Changsha', 512412.00, 'ewqrqrweaf', NULL, NULL, 324.00, NULL);
 
 -- ----------------------------
 -- Table structure for organization
@@ -110,7 +114,7 @@ CREATE TABLE `registrations`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_registration`(`event_id` ASC, `user_email` ASC) USING BTREE COMMENT '确保每个用户对每个事件只能注册一次',
   CONSTRAINT `registrations_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `events` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存储用户事件注册信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '存储用户事件注册信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of registrations
@@ -118,12 +122,15 @@ CREATE TABLE `registrations`  (
 INSERT INTO `registrations` VALUES (1, 1, 'John Doe', 'john@qq.com', '2025-06-10 09:00:00', 2);
 INSERT INTO `registrations` VALUES (2, 1, 'Jane Smith', 'jane@126.com', '2025-06-12 10:00:00', 1);
 INSERT INTO `registrations` VALUES (3, 2, 'Bob Johnson', 'bob@163.com', '2025-10-15 11:00:00', 3);
-INSERT INTO `registrations` VALUES (4, 3, 'Alice Brown', 'alice@scu.edu.cn', '2025-07-01 12:00:00', 1);
-INSERT INTO `registrations` VALUES (5, 4, 'Charlie Davis', 'charlie@scu.edu.cn', '2025-09-20 13:00:00', 4);
-INSERT INTO `registrations` VALUES (6, 5, 'Eva Wilson', 'eva@scu.edu.cn', '2025-10-01 14:00:00', 2);
-INSERT INTO `registrations` VALUES (7, 6, 'Frank Miller', 'frank@scu.edu.cn', '2025-10-20 15:00:00', 1);
-INSERT INTO `registrations` VALUES (8, 7, 'Grace Lee', 'grace@scu.edu.cn', '2025-10-20 16:00:00', 3);
-INSERT INTO `registrations` VALUES (9, 8, 'Henry Garcia', 'henry@scu.edu.cn', '2025-10-25 17:00:00', 2);
-INSERT INTO `registrations` VALUES (10, 9, 'Ivy Martinez', 'ivy@scu.edu.cn', '2025-09-25 18:00:00', 5);
+INSERT INTO `registrations` VALUES (4, 3, 'Alice Brown', 'alice@scu.edu.au', '2025-07-01 12:00:00', 1);
+INSERT INTO `registrations` VALUES (5, 4, 'Charlie Davis', 'charlie@scu.edu.au', '2025-09-20 13:00:00', 4);
+INSERT INTO `registrations` VALUES (6, 5, 'Eva Wilson', 'eva@scu.edu.au', '2025-10-01 14:00:00', 2);
+INSERT INTO `registrations` VALUES (7, 6, 'Frank Miller', 'frank@scu.edu.au', '2025-10-20 15:00:00', 1);
+INSERT INTO `registrations` VALUES (8, 7, 'Grace Lee', 'grace@scu.edu.au', '2025-10-20 16:00:00', 3);
+INSERT INTO `registrations` VALUES (9, 8, 'Henry Garcia', 'henry@scu.edu.au', '2025-10-25 17:00:00', 2);
+INSERT INTO `registrations` VALUES (10, 9, 'Ivy Martinez', 'ivy@scu.edu.au', '2025-09-25 18:00:00', 5);
+INSERT INTO `registrations` VALUES (11, 2, 'test11', 'test11@qq.com', '2025-10-19 01:16:17', 5);
+INSERT INTO `registrations` VALUES (12, 4, 'tes', 'test@scu.edu.au', '2025-10-19 01:20:31', 1);
+INSERT INTO `registrations` VALUES (13, 13, 'test_bond', NULL, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
