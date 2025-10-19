@@ -69,11 +69,7 @@ export class RegisterComponent implements OnInit {
         next: (response) => {
           this.success = true;
           this.submitting = false;
-          
-          // 3秒后自动跳转回详情页
-          // setTimeout(() => {
-          //   this.router.navigate(['/detail', this.event!.id]);
-          // }, 3000);
+        
         },
         error: (error) => {
           console.error('Registration error:', error);

@@ -32,8 +32,8 @@
             <!-- Success Message -->
             <div *ngIf="success" class="success-message">
                 <h3>Registration Successful!</h3>
-                <p>Thank you for registering for "{{ event.name }}". You will be redirected to the event page in a few seconds.</p>
-                <p>If you are not redirected, <a [routerLink]="['/detail', event.id]">click here</a>.</p>
+                <p>Thank you for registering for "{{ event.name }}".</p>
+                <p>Return to event page, <a [routerLink]="['/detail', event.id]">click here</a>.</p>
             </div>
 
             <!-- Registration Form -->
@@ -70,14 +70,18 @@
 
                 <div class="form-group">
                     <label for="ticket_count">Number of Tickets *</label>
-                    <select 
+                    <input 
+                        type="number" 
                         id="ticket_count" 
                         formControlName="ticket_count"
+                        min="1" 
+                        max="20"
+                        placeholder="Enter number of tickets (1-20)"
                         [class.error]="registerForm.get('ticket_count')?.invalid && registerForm.get('ticket_count')?.touched">
-                        <option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [value]="i">{{ i }} ticket(s)</option>
-                    </select>
                     <div *ngIf="registerForm.get('ticket_count')?.invalid && registerForm.get('ticket_count')?.touched" class="error-text">
-                        Please select a valid number of tickets
+                        <div *ngIf="registerForm.get('ticket_count')?.errors?.['required']">Number of tickets is required</div>
+                        <div *ngIf="registerForm.get('ticket_count')?.errors?.['min']">Minimum 1 ticket is required</div>
+                        <div *ngIf="registerForm.get('ticket_count')?.errors?.['max']">Maximum 20 tickets allowed</div>
                     </div>
                 </div>
 
