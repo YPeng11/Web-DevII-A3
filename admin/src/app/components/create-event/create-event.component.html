@@ -1,1 +1,172 @@
-<p>create-event works!</p>
+<div class="create-event-container">
+  <div class="header">
+    <h2>Create New Event</h2>
+    <p>Fill in the form below to create a new charity event</p>
+  </div>
+
+  <!-- success msg -->
+  <div *ngIf="success" class="success-message">
+    <p> Event created successfully! Redirecting to events list...</p>
+  </div>
+
+  <!-- error msg -->
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <form [formGroup]="createForm" (ngSubmit)="onSubmit()" class="create-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="name">Event Name *</label>
+        <input
+          type="text"
+          id="name"
+          formControlName="name"
+          class="form-control"
+          [class.error]="createForm.get('name')?.invalid && createForm.get('name')?.touched"
+          placeholder="Enter event name"
+        >
+        <div *ngIf="createForm.get('name')?.invalid && createForm.get('name')?.touched" class="error-message">
+          <span *ngIf="createForm.get('name')?.errors?.['required']">Event name is required</span>
+          <span *ngIf="createForm.get('name')?.errors?.['minlength']">Event name must be at least 3 characters</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Event Date *</label>
+        <input
+          type="date"
+          id="date"
+          formControlName="date"
+          class="form-control"
+          [class.error]="createForm.get('date')?.invalid && createForm.get('date')?.touched"
+        >
+        <div *ngIf="createForm.get('date')?.invalid && createForm.get('date')?.touched" class="error-message">
+          Event date is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="location">Location *</label>
+        <input
+          type="text"
+          id="location"
+          formControlName="location"
+          class="form-control"
+          [class.error]="createForm.get('location')?.invalid && createForm.get('location')?.touched"
+          placeholder="Enter event location"
+        >
+        <div *ngIf="createForm.get('location')?.invalid && createForm.get('location')?.touched" class="error-message">
+          Location is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="organization_id">Organization *</label>
+        <select
+          id="organization_id"
+          formControlName="organization_id"
+          class="form-control"
+          [class.error]="createForm.get('organization_id')?.invalid && createForm.get('organization_id')?.touched"
+        >
+          <option value="">Select an organization</option>
+          <option *ngFor="let organization of organizations" [value]="organization.id">
+            {{ organization.name }}
+          </option>
+        </select>
+        <div *ngIf="createForm.get('organization_id')?.invalid && createForm.get('organization_id')?.touched" class="error-message">
+          organization is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="category_id">Category *</label>
+        <select
+          id="category_id"
+          formControlName="category_id"
+          class="form-control"
+          [class.error]="createForm.get('category_id')?.invalid && createForm.get('category_id')?.touched"
+        >
+          <option value="">Select a category</option>
+          <option *ngFor="let category of categories" [value]="category.id">
+            {{ category.name }}
+          </option>
+        </select>
+        <div *ngIf="createForm.get('category_id')?.invalid && createForm.get('category_id')?.touched" class="error-message">
+          Category is required
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="target_price">Target Price ($)</label>
+        <input
+          type="number"
+          id="target_price"
+          formControlName="target_price"
+          class="form-control"
+          step="0.01"
+          min="0"
+          placeholder="0.00"
+        >
+        <div *ngIf="createForm.get('target_price')?.errors?.['min']" class="error-message">
+          Target price cannot be negative
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="ticket_price">Ticket Price ($)</label>
+        <input
+          type="number"
+          id="ticket_price"
+          formControlName="ticket_price"
+          class="form-control"
+          step="0.01"
+          min="0"
+          placeholder="0.00"
+        >
+        <div *ngIf="createForm.get('ticket_price')?.errors?.['min']" class="error-message">
+          Ticket price cannot be negative
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group full-width">
+      <label for="detail">Event Details *</label>
+      <textarea
+        id="detail"
+        formControlName="detail"
+        class="form-control"
+        rows="5"
+        [class.error]="createForm.get('detail')?.invalid && createForm.get('detail')?.touched"
+        placeholder="Event Details..."
+      ></textarea>
+      <div *ngIf="createForm.get('detail')?.invalid && createForm.get('detail')?.touched" class="error-message">
+        Event details are required
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="onCancel()"
+        [disabled]="loading"
+      >
+        Cancel
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="loading"
+      >
+        {{ loading ? 'Creating...' : 'Create Event' }}
+      </button>
+    </div>
+  </form>
+</div>
