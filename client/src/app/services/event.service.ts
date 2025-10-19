@@ -49,7 +49,7 @@ export interface SearchParams {
   providedIn: 'root'
 })
 export class EventService {
-  private apiUrl = 'http://localhost:3060/api';
+  private apiUrl = 'http://24517296.it.scu.edu.au/api';
 
   constructor(private http: HttpClient) { }
 
