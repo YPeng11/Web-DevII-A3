@@ -16,7 +16,7 @@
             "outputPath": "dist/admin",
             "index": "src/index.html",
             "main": "src/main.ts",
-			"baseHref":"/admin"
+			"baseHref":"/admin/"
             "polyfills": [
               "zone.js"
             ],
@@ -32,6 +32,7 @@
           },
           "configurations": {
             "production": {
+				"baseHref": "/client/",
               "budgets": [
                 {
                   "type": "initial",
